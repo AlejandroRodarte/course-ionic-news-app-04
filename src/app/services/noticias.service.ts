@@ -16,7 +16,7 @@ export class NoticiasService {
     return this
             .http
             .get<RespuestaTopHeadlines>(
-              `http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=545b637c479641509d397ea971a99728`
+              `xhttp://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=545b637c479641509d397ea971a99728`
             );
   }
 

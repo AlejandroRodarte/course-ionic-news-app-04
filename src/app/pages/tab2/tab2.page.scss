@@ -1,3 +1,7 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+
+ion-segment-button {
+  flex: 1 0 auto;
+}
