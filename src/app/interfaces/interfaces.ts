@@ -19,3 +19,13 @@ interface Source {
   id?: string;
   name: string;
 }
+
+export interface PagesTracker {
+  [key: string]: PageTracker;
+}
+
+interface PageTracker {
+  actualPage: number;
+  totalPages: number;
+  onLastPage: boolean;
+}

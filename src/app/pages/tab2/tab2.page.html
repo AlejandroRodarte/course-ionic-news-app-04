@@ -30,5 +30,18 @@
 </ion-header>
 
 <ion-content>
+
   <app-noticias [noticias]="noticias"></app-noticias>
+
+  <ion-infinite-scroll
+    threshold="125px"
+    (ionInfinite)="onIonInfinite($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="crescent"
+      loadingText="Cargando..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
 </ion-content>
