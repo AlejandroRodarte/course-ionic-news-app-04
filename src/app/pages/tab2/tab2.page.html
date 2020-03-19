@@ -10,6 +10,7 @@
     scrollable 
     mode="md" 
     color="primary"
+    (ionChange)="onSegmentChange($event)"
   >
 
     <ion-segment-button 
@@ -29,5 +30,5 @@
 </ion-header>
 
 <ion-content>
-
+  <app-noticias [noticias]="noticias"></app-noticias>
 </ion-content>
