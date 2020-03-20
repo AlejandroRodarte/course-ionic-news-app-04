@@ -3,7 +3,6 @@ import { NoticiasService } from '../../services/noticias.service';
 import { Article, RespuestaTopHeadlines } from '../../interfaces/interfaces';
 import { tap } from 'rxjs/operators';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -25,6 +24,10 @@ export class Tab1Page implements OnInit {
 
   ngOnInit() {
     this.cargarNoticias();
+  }
+
+  ionViewWillEnter() {
+    this.noticiasService.favoriteMode = 'add';
   }
 
   onIonInfinite(e): void {

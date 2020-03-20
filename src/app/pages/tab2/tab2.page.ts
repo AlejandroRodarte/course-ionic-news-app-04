@@ -41,6 +41,10 @@ export class Tab2Page implements OnInit {
     this.cargarNoticias(this.categorias[0]);
   }
 
+  ionViewWillEnter() {
+    this.noticiasService.favoriteMode = 'add';
+  }
+
   onSegmentChange(e: CustomEvent) {
 
     this.noticias = [];

@@ -16,6 +16,11 @@ export class DataLocalService {
     private storage: Storage
   ) { }
 
+  eliminarNoticia(index: number): void {
+    this.noticias.splice(index, 1);
+    this.noticiasChanged.next();
+  }
+
   guardarNoticia(noticia: Article): void {
 
     const existe = this.noticias.find((noticiaActual: Article) => noticia.title === noticiaActual.title);

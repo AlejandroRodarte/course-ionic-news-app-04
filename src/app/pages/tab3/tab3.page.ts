@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataLocalService } from '../../services/data-local.service';
 import { Article } from '../../interfaces/interfaces';
+import { NoticiasService } from '../../services/noticias.service';
 
 @Component({
   selector: 'app-tab3',
@@ -17,7 +18,8 @@ export class Tab3Page implements OnInit {
   };
 
   constructor(
-    private dataLocalService: DataLocalService
+    private dataLocalService: DataLocalService,
+    private noticiasService: NoticiasService
   ) {}
 
   async ngOnInit() {
@@ -26,7 +28,10 @@ export class Tab3Page implements OnInit {
     this.noticias = this.dataLocalService.getNoticias();
 
     this.dataLocalService.noticiasChanged.subscribe(() => this.noticias = this.dataLocalService.getNoticias());
+  }
 
+  ionViewWillEnter() {
+    this.noticiasService.favoriteMode = 'delete';
   }
 
 }

@@ -29,6 +29,9 @@ export class NoticiasService {
 
   private pageSize = 10;
 
+  // tslint:disable-next-line: variable-name
+  private _favoriteMode: 'add' | 'delete' = 'add';
+
   private updatePageStatus = (type: keyof PagesTracker) => (respuesta: RespuestaTopHeadlines) => {
 
     this.pageTracker[type].totalPages = Math.ceil(respuesta.totalResults / this.pageSize);
@@ -44,6 +47,14 @@ export class NoticiasService {
   constructor(
     private http: HttpClient
   ) { }
+
+  get favoriteMode(): 'add' | 'delete' {
+    return this._favoriteMode;
+  }
+
+  set favoriteMode(mode: 'add' | 'delete') {
+    this._favoriteMode = mode;
+  }
 
   resetPageStatus(type: string): void {
     this.pageTracker[type].actualPage = 1;
