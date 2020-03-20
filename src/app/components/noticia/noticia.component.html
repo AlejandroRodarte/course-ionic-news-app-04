@@ -14,7 +14,7 @@
 
     </ion-card-subtitle>
 
-    <ion-card-title>
+    <ion-card-title (click)="abrirNoticia()">
       {{ noticia.title }}
     </ion-card-title>
 
@@ -23,6 +23,7 @@
   <ion-img 
     [src]="noticia.urlToImage"
     *ngIf="noticia.urlToImage"
+    (click)="abrirNoticia()"
   >
   </ion-img>
 
