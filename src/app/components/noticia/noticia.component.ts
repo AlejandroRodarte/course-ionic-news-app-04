@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Article } from '../../interfaces/interfaces';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ToastController } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { DataLocalService } from '../../services/data-local.service';
 import { NoticiasService } from '../../services/noticias.service';
@@ -24,7 +24,8 @@ export class NoticiaComponent implements OnInit {
     private actionSheetController: ActionSheetController,
     private socialSharing: SocialSharing,
     private dataLocalService: DataLocalService,
-    private noticiasService: NoticiasService
+    private noticiasService: NoticiasService,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {}
@@ -53,9 +54,19 @@ export class NoticiaComponent implements OnInit {
           text: this.noticiasService.favoriteMode === 'add' ? 'Favorito' : 'Eliminar de Favorito',
           icon: 'star',
           handler: () => {
-            this.noticiasService.favoriteMode === 'add' ?
+
+            const changed = this.noticiasService.favoriteMode === 'add' ?
             this.dataLocalService.guardarNoticia(this.noticia) :
             this.dataLocalService.eliminarNoticia(this.index);
+
+            if (!changed && this.noticiasService.favoriteMode === 'add') {
+              this.presentToast('Esta noticia ya se encuentra en tus favoritos');
+            } else if (changed && this.noticiasService.favoriteMode === 'add') {
+              this.presentToast('Noticia agregada a favoritos');
+            } else {
+              this.presentToast('Noticia eliminada de favoritos');
+            }
+
           }
         },
         {
@@ -70,6 +81,17 @@ export class NoticiaComponent implements OnInit {
     });
 
     await actionSheet.present();
+
+  }
+
+  private async presentToast(message: string): Promise<void> {
+
+    const toast = await this.toastController.create({
+      message,
+      duration: 1500
+    });
+
+    await toast.present();
 
   }
 

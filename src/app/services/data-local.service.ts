@@ -16,12 +16,16 @@ export class DataLocalService {
     private storage: Storage
   ) { }
 
-  eliminarNoticia(index: number): void {
+  eliminarNoticia(index: number): boolean {
+
     this.noticias.splice(index, 1);
     this.noticiasChanged.next();
+
+    return true;
+
   }
 
-  guardarNoticia(noticia: Article): void {
+  guardarNoticia(noticia: Article): boolean {
 
     const existe = this.noticias.find((noticiaActual: Article) => noticia.title === noticiaActual.title);
 
@@ -30,6 +34,8 @@ export class DataLocalService {
       this.storage.set('favoritos', this.noticias);
       this.noticiasChanged.next();
     }
+
+    return !existe;
 
   }
 
