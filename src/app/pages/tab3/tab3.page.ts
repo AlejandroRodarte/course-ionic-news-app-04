@@ -11,6 +11,11 @@ export class Tab3Page implements OnInit {
 
   public noticias: Article[] = [];
 
+  public sliderOptions = {
+    allowSlidePrev: false,
+    allowSlideNext: false
+  };
+
   constructor(
     private dataLocalService: DataLocalService
   ) {}

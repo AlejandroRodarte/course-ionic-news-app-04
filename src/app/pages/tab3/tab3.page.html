@@ -12,6 +12,19 @@
 
 <ion-content>
 
-  <app-noticias [noticias]="noticias"></app-noticias>
+  <ion-slides 
+    *ngIf="noticias.length === 0"
+    [options]="sliderOptions"
+  >
+    <ion-slide>
+      <ion-label>No hay favoritos</ion-label>
+    </ion-slide>
+  </ion-slides>
+
+  <app-noticias 
+    [noticias]="noticias"
+    *ngIf="noticias.length > 0"
+  >
+  </app-noticias>
 
 </ion-content>
