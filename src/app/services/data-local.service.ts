@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Article } from '../interfaces/interfaces';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataLocalService {
 
-  public noticias: Article[] = [];
+  private noticias: Article[] = [];
+
+  public noticiasChanged = new Subject<void>();
 
   constructor(
     private storage: Storage
@@ -20,12 +23,22 @@ export class DataLocalService {
     if (!existe) {
       this.noticias.unshift(noticia);
       this.storage.set('favoritos', this.noticias);
+      this.noticiasChanged.next();
     }
 
   }
 
-  cargarFavoritos(): Article[] {
-    return [];
+  async cargarFavoritos(): Promise<void> {
+
+    const favoritos = await this.storage.get('favoritos') || [];
+    this.noticias = favoritos;
+
+    this.noticiasChanged.next();
+
+  }
+
+  getNoticias(): Article[] {
+    return [...this.noticias];
   }
 
 }
