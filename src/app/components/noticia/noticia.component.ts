@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Article } from '../../interfaces/interfaces';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, ToastController, Platform } from '@ionic/angular';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 import { DataLocalService } from '../../services/data-local.service';
 import { NoticiasService } from '../../services/noticias.service';
@@ -25,7 +25,8 @@ export class NoticiaComponent implements OnInit {
     private socialSharing: SocialSharing,
     private dataLocalService: DataLocalService,
     private noticiasService: NoticiasService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private platform: Platform
   ) { }
 
   ngOnInit() {}
@@ -41,14 +42,7 @@ export class NoticiaComponent implements OnInit {
         {
           text: 'Compartir',
           icon: 'share',
-          handler: () => {
-            this.socialSharing.share(
-              this.noticia.title,
-              this.noticia.source.name,
-              '',
-              this.noticia.url
-            );
-          }
+          handler: () => this.compartirNoticia()
         },
         {
           text: this.noticiasService.favoriteMode === 'add' ? 'Favorito' : 'Eliminar de Favorito',
@@ -92,6 +86,36 @@ export class NoticiaComponent implements OnInit {
     });
 
     await toast.present();
+
+  }
+
+  compartirNoticia() {
+
+    if (this.platform.is('cordova')) {
+
+      this.socialSharing.share(
+        this.noticia.title,
+        this.noticia.source.name,
+        '',
+        this.noticia.url
+      );
+
+    // tslint:disable-next-line: no-string-literal
+    } else if (navigator['share']) {
+
+      // tslint:disable-next-line: no-string-literal
+      navigator['share']({
+        title: this.noticia.title,
+        text: this.noticia.description,
+        url: this.noticia.url
+      })
+      .then(() => console.log('Share exitoso'))
+      .catch(() => console.log('Share fallado'));
+
+    } else {
+      console.log('Share no soportado');
+    }
+
 
   }
 
